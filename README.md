@@ -12,3 +12,5 @@ Here are few instructions regarding the following scripts:
 3.	Requested packages are indicated at the beginning of every script between the two #~~~~~~~# symbols.
 
 4.	Scripts are numbered in the order they should be used
+
+5. 	We here provide only a sample of the fisheries data due to size limitation, the full dataset is available on the GFW website (https://globalfishingwatch.org/data-download/)
