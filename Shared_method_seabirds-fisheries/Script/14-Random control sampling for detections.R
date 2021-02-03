@@ -1,6 +1,6 @@
 rm(list = ls())
 #Your WD #!!#
-setwd("C:/Users/dupui/Documents/Internship_M1/Shared_method_seabirds-fisheries")
+#setwd("C:/Users/dupui/Documents/Internship_M1/Shared_method_seabirds-fisheries")
 
 #~~~~~~#
 library(tidyverse)
@@ -16,10 +16,9 @@ library(tidyverse)
 # 	--> if no, control is okay
 
 #Load detections 
-mydetect <- readRDS("Data/Fulmar/detect_final_zoned.rds") #change to the output file of script n°12 #!!#
-mydetect<- mydetect[-which(is.na(mydetect$zone)),]
+mydetect <- readRDS("Data/Fulmar/Encounters/detect_final_zoned.rds") #change to the output file of script nÂ°12 #!!#
 
-folderpath <- "C:/Users/dupui/Documents/Internship_M1/R/Data/Fulmar/Final/Located" #Change to the output path of script n°13 #!!#
+folderpath <- "C:/Users/dupui/Documents/Internship_M1/R/Data/Fulmar/Final/Located" #Change to the output path of script nÂ°13 #!!#
 mycontrol <- numeric()
 diffreq <- numeric()
 
