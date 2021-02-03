@@ -21,6 +21,11 @@ mydf <- NULL
     print(i)
   }
 
+mydf$activity_cat <- NA
+mydf$activity_cat[which(mydf$std_conductivity > 0.95)] <- "resting"
+mydf$activity_cat[which(mydf$std_conductivity < 0.05)] <- "flying"
+mydf$activity_cat[which(mydf$std_conductivity <= 0.95 & mydf$std_conductivity >= 0.05)] <- "foraging"
+
 mydf <- mydf[which(!is.na(mydf$zone)),]
 saveRDS(mydf, "Data/Fulmar/stack_files.rds") #Change to the desire output path #!!#
 
