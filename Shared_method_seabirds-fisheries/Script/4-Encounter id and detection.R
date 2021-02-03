@@ -133,7 +133,7 @@ folderpath <- "Data/Fulmar/Processed/Corrected/Night_and_no_twilight" #change to
 mysavingpath <- "Data/Fulmar/Encounters" #change to the path where you want the data to be saved #!!#
 
 #If you're using the public data sample, only the MT logger is available, so just run that loop with pattern = "-no-"
-for(pattern in c("-high-","-low-","-no-")){ #Apply the function to the different loggers group
+for(pattern in c("-low-")){ #Apply the function to the different loggers group, only -low- here to fit the sample data
   if(pattern == "-high-" | pattern == "-low-"){prod <- "Biotrack"}
   if(pattern == "-no-"){prod <- "MT"}
   data.files <- list.files(folderpath, pattern = pattern) 
