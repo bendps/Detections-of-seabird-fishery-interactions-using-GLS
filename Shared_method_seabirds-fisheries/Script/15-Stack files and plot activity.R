@@ -77,84 +77,84 @@ actzone$se <- as.numeric(as.character(actzone$se))
 
 saveRDS(actzone, "Data/Fulmar/activity_zone_compare.rds") #Change to the desired output path #!!#
 
-#Figure of activity comparison depending on light (fig.3)####
-
 data <- readRDS("Data/Fulmar/stack_files.rds") #Change to the outpu of the first part of this script #!!#
 
+data$activity_cat <- as.factor(data$activity_cat)
 #Nights without detections data ####
 mydata <- subset(data, detect_night == 0)
-grpdata <- mydata %>% group_by(session_id,mydate,activity_cat, zone) %>%
-  summarise(n = n(), individ_id = min(individ_id))
 
-grpgen <- mydata %>% group_by(session_id,mydate, zone) %>% summarise(n = n())
+grpdata <- mydata %>% group_by(session_id, mydate, activity_cat, individ_id, .drop = F) %>%
+  dplyr::summarise(n = n())
 
+grpgen <- mydata %>% dplyr::group_by(session_id,mydate) %>% dplyr::summarise(n = n())
+
+grpdata$tot <- NA
 for(i in 1:nrow(grpdata)){
-  x <- subset(grpgen, session_id == grpdata$session_id[i] & mydate == grpdata$mydate[i] & zone == grpdata$zone[i])
-  grpdata$tot[i] <- x$n
-  if(nrow(x)>1){print(paste("error",i))}
+  grpdata$tot[i] <- grpgen$n[which(grpgen$session_id == grpdata$session_id[i] & grpgen$mydate == grpdata$mydate[i])]
 }
+
 grpdata$prop <- grpdata$n/grpdata$tot*100
 saveRDS(grpdata,"Data/Fulmar/Behaviour/grpglobaldata.RDS") #Can be changed to the desired output path #!!#
 
-myglobal <- grpdata %>% group_by(activity_cat) %>% summarise(mean = mean(prop), sd = sd(prop), n = n(), type = "global")
+myglobal <- grpdata %>% group_by(activity_cat) %>% dplyr::summarise(mean = mean(prop), sd = sd(prop), n = n(), type = "global")
 
 myglobal$se <- myglobal$sd/sqrt(myglobal$n)
 
 #1.Nights with detections data ####
 mydata <- subset(data, detect_night == 1)
-grpdata <- mydata %>% group_by(session_id,mydate,activity_cat, zone) %>%
-  summarise(n = n())
+grpdata <- mydata %>% group_by(session_id,mydate,activity_cat, individ_id, .drop = F) %>%
+  dplyr::summarise(n = n())
 
-grpgen <- mydata %>% group_by(session_id,mydate, zone) %>% summarise(n = n())
+grpgen <- mydata %>% group_by(session_id, mydate) %>% dplyr::summarise(n = n())
 
+grpdata$tot <- NA
 for(i in 1:nrow(grpdata)){
-  x <- subset(grpgen, session_id == grpdata$session_id[i] & mydate == grpdata$mydate[i] & zone == grpdata$zone[i])
-  grpdata$tot[i] <- x$n
-  if(nrow(x)>1){print(paste("error",i))}
+  grpdata$tot[i] <- grpgen$n[which(grpgen$session_id == grpdata$session_id[i] & grpgen$mydate == grpdata$mydate[i])]
 }
+
 grpdata$prop <- grpdata$n/grpdata$tot*100
 saveRDS(grpdata,"Data/Fulmar/Behaviour/grpNightdata.RDS") #Can be changed to the desired output path #!!#
 
-myNight <- grpdata %>% group_by(activity_cat) %>% summarise(mean = mean(prop), sd = sd(prop), n = n(), type = "Night")
+myNight <- grpdata %>% group_by(activity_cat) %>% dplyr::summarise(mean = mean(prop), sd = sd(prop), n = n(), type = "Night")
 
 myNight$se <- myNight$sd/sqrt(myNight$n)
 
 #2.Encounter data ####
 mydata <- subset(data, detect_night == 1 & detect_boat == 1)
-grpdata <- mydata %>% group_by(individ_id,activity_cat, zone) %>%
-  summarise(n = n())
+grpdata <- mydata %>% group_by(individ_id,activity_cat, .drop = F) %>%
+  dplyr::summarise(n = n())
 
-grpgen <- mydata %>% group_by(individ_id, zone) %>% summarise(n = n())
+grpgen <- mydata %>% group_by(individ_id) %>% dplyr::summarise(n = n())
 
+grpdata$tot <- NA
 for(i in 1:nrow(grpdata)){
-  x <- subset(grpgen, individ_id == grpdata$individ_id[i] & zone == grpdata$zone[i])
-  grpdata$tot[i] <- x$n
-  if(nrow(x)>1){print(paste("error",i))}
+  grpdata$tot[i] <- grpgen$n[which(grpgen$individ_id == grpdata$individ_id[i])]
 }
+
 grpdata$prop <- grpdata$n/grpdata$tot*100
 saveRDS(grpdata,"Data/Fulmar/Behaviour/grpboatdata.RDS") #Can be changed to the desired output path #!!#
 
-myboat <- grpdata %>% group_by(activity_cat) %>% summarise(mean = weighted.mean(x = prop, w = tot), sd = sd(prop), n = n(), type = "boat")
+myboat <- grpdata %>% group_by(activity_cat) %>% dplyr::summarise(mean = weighted.mean(x = prop, w = tot), sd = sd(prop), n = n(), type = "boat")
 
 myboat$se <- myboat$sd/sqrt(myboat$n)
 
 #3.Control data ####
 mydata <- readRDS("Data/Fulmar/control_stat_encounter.rds") #Change to the output file of script n°14 #!!#
 
-grpdata <- mydata %>% group_by(individ_id,activity_cat, zone) %>%
-  summarise(n = n())
+grpdata <- mydata %>% group_by(individ_id,activity_cat, .drop = F) %>%
+  dplyr::summarise(n = n())
 
-grpgen <- mydata %>% group_by(individ_id, zone) %>% summarise(n = n())
+grpgen <- mydata %>% group_by(individ_id) %>% dplyr::summarise(n = n())
 
+grpdata$tot <- NA
 for(i in 1:nrow(grpdata)){
-  x <- subset(grpgen, individ_id == grpdata$individ_id[i] & zone == grpdata$zone[i])
-  grpdata$tot[i] <- x$n
-  if(nrow(x)>1){print(paste("error",i))}
+  grpdata$tot[i] <- grpgen$n[which(grpgen$individ_id == grpdata$individ_id[i])]
 }
+
 grpdata$prop <- grpdata$n/grpdata$tot*100
 saveRDS(grpdata,"Data/Fulmar/Behaviour/grpcontroldata.RDS") #Can be changed to the desired output path #!!#
 
-mycontrol <- grpdata %>% group_by(activity_cat) %>% summarise(mean = weighted.mean(x = prop, w = tot), sd = sd(prop), n = n(), type = "Control")
+mycontrol <- grpdata %>% group_by(activity_cat) %>% dplyr::summarise(mean = weighted.mean(x = prop, w = tot), sd = sd(prop), n = n(), type = "Control")
 
 mycontrol$se <- mycontrol$sd/sqrt(mycontrol$n)
 
@@ -180,9 +180,9 @@ myfinal$type <- plyr::revalue(myfinal$type, c("Encounters"="During encounters",
 
 #Same with activities
 myfinal$activity_cat <- as.character(myfinal$activity_cat)
-myfinal$activity_cat[myfinal$activity_cat == "Dry"] <- "Flying"
-myfinal$activity_cat[myfinal$activity_cat == "Foraging"] <- "Foraging"
-myfinal$activity_cat[myfinal$activity_cat == "Wet"] <- "Resting"
+myfinal$activity_cat[myfinal$activity_cat == "flying"] <- "Flying"
+myfinal$activity_cat[myfinal$activity_cat == "foraging"] <- "Foraging"
+myfinal$activity_cat[myfinal$activity_cat == "resting"] <- "Resting"
 myfinal$activity_cat <- as.factor(myfinal$activity_cat)
 myfinal$activity_cat <- ordered(myfinal$activity_cat, levels = c("Resting",
                                                                  "Foraging",
