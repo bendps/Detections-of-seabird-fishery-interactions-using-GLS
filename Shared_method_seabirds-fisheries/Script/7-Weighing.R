@@ -12,9 +12,9 @@ savingpath <- "Data/Fulmar/Encounters" #change to the path where you want the co
 normdata <- NULL
 
 #Load the data
-no <- readRDS(paste0(folderpath,"/encounters_localized-no-.rds")) #only one available in the public sample
+#no <- readRDS(paste0(folderpath,"/encounters_localized-no-.rds")) #only one available in the public sample
 #high <- readRDS(paste0(folderpath,"/encounters_localized-high-.rds"))
-#low <- readRDS(paste0(folderpath,"/encounters_localized-low-.rds"))
+low <- readRDS(paste0(folderpath,"/encounters_localized-low-.rds"))
 
 deployments <- readRDS("Data/Fulmar/SUMMARY-DEPLOYMENTS_all_colonies.rds") #change to the path of the deployment file #!!#
 deployments$Yt <- year(deployments$retrieval_date) - year(deployments$deployment_date) #number of years tracked
