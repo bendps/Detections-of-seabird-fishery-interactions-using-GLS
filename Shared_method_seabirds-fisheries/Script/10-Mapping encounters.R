@@ -20,7 +20,7 @@ theme_set(theme_bw())
 #Load position and shapefile
 zones <- readOGR("Data/Zones/My_zones.shp") #Change to the path were the polygones defining your zones are #!!#
 world <- ne_countries(scale = "medium", returnclass = "sf")
-positions <- readRDS("Data/Fulmar/encounters_final_global.rds") #!!# encounters positions
+positions <- readRDS("Data/Fulmar/encounters/encounters_final_global.rds") #!!# encounters positions
 globalpos <- readRDS("Data/Fulmar/Output_GLS_&_IRMA_locations_Fulmarus_glacialis_2020-04-30.rds") #!!# all birds positions
 
 # Prepare CRS Strings
