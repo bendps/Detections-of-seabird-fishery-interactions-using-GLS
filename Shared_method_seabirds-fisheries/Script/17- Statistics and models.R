@@ -13,7 +13,7 @@ library(nlme) ; library(lme4) ; library(multcomp)
 
 # data 
 
-TAB <- readRDS("Data/Fulmar/stack_files.rds") #Change to the output of script n°15 #!!#
+TAB <- readRDS("Data/Fulmar/stack_files.rds") #Change to the output of script nÂ°15 #!!#
 
 #Calcul night duration
 TAB$nightdur <- as.numeric(difftime(TAB$end,TAB$begin, units ="hours"))
@@ -37,7 +37,7 @@ TAB$colony <- ordered(TAB$colony,  levels = c("Alkefjellet",
                                               "Faroe Islands",
                                               "Eynhallow",
                                               "Jarsteinen",
-                                              "Bjørnøya"))
+                                              "BjÃ¸rnÃ¸ya"))
 
 #Null model 
 mod0 <- glmer(detect_night ~ 1 + (1 | individ_id), family = binomial,
@@ -88,9 +88,20 @@ summary(glht(modC, linfct = mcp(colony = "Tukey")), test = adjusted("holm"))
 pair <- glht(modC, linfct = mcp(colony = "Tukey")) #get the significance label of fig. 4.A
 
 summary(glht(modD, linfct = mcp(zone = "Tukey")), test = adjusted("holm"))
+
+#V2
+
 #Duration model####
-detect <- readRDS("Data/Fulmar/detect_final_zoned.rds") #Change to path were you saved output of script n°12
+detect <- readRDS("Data/Fulmar/detect_final_zoned.rds") #Change to path were you saved output of script nÂ°12
 detect <- detect[-which(is.na(detect$zone)),]
+
+detect$colony <- as.factor(detect$colony)
+detect$class <- as.factor(detect$class)
+
+detect$nightlength <- detect$nightlength/60 # night in hours
+detect$nightlength <- ifelse(detect$nightlength>24, 24, detect$nightlength)
+# random structure = 1|individ_id
+# fixed effects = zone, colony, logger type, duration of the night
 
 #Data exploration
 hist(detect$duration)
@@ -106,61 +117,56 @@ detect$class <- as.factor(detect$class)
 
 detect$nightlength <- detect$nightlength/60 # night in hours
 
-# random = 1|individ_id
-#fixed effects = zone, colony, logger type, night length
+# test binomial short vs long encounters
 
-#model null
-mod0 <- lme(duration.log ~ 1, random =  ~1|individ_id, data = detect,
-            method = "ML")
-summary(mod0)
+detect$DurCat <- as.factor(ifelse(detect$duration<=10, 'short', 'long'))
+table(detect$DurCat)
+
+# detect$nightlength2 <- scale(detect$nightlength)
+
+
+# filter zones with very few points 
+
+detect2 <- detect %>% filter(!(zone %in% c("Kara Sea", "Labrador Sea" , "Canadian Eastern Arctic - West Greenland")))
+
+mod0 <- glmer(DurCat ~ 1 + (1 | individ_id), family = binomial,
+              data = detect2)
 AIC(mod0)
 
-mod0b <- gls(duration.log~ 1, data = detect, method = "ML")
-summary(mod0b)
-AIC(mod0b)
 
-#most complex model
-mod1 <- lme(duration.log ~ colony + zone + nightlength + class, random =  ~1|individ_id, data = detect,
-            method = "ML")
-summary(mod1)
-AIC(mod1)
+modA <- glmer(DurCat ~ colony + zone + class + (1 | individ_id), family = binomial,
+              data = detect2)
+# summary(modA)
+AIC(modA)
 
-#Only zone
-mod2 <- lme(duration.log ~ colony + nightlength + class, random =  ~1|individ_id, data = detect,
-            method = "ML")
-summary(mod2)
-AIC(mod2)
+modB <- glmer(DurCat ~ zone + class + (1 | individ_id), family = binomial, #  control = glmerControl(optimizer ="optim"),
+              data = detect2)
+AIC(modB)
+summary(modB)
+plot(modB)
 
-mod3 <- lme(duration.log ~ zone + class, random =  ~1|individ_id, data = detect,
-            method = "ML")
-summary(mod3)
-AIC(mod3)
+modC <- glmer(DurCat ~ colony + class + (1 | individ_id), family = binomial,
+              data = detect2)
+AIC(modC)
 
-mod4 <- lme(duration.log ~ zone + nightlength, random =  ~1|individ_id, data = detect,
-            method = "ML")
-summary(mod4)
-AIC(mod4)7
+modD <- glmer(DurCat ~  class + (1 | individ_id), family = binomial,
+              data = detect2)
+AIC(modD)
 
+modE <- glmer(DurCat ~ zone +  (1 | individ_id), family = binomial,
+              data = detect2)
+AIC(modE)
 
-mod5 <- lme(duration.log ~ zone, random =  ~1|individ_id, data = detect,
-            method = "ML")
-summary(mod5)
-AIC(mod5)
+modF <- glmer(DurCat ~ colony +  (1 | individ_id), family = binomial,
+              data = detect2)
+AIC(modF)
 
-#only logger class
-mod6<- lme(duration.log ~ class, random =  ~1|individ_id, data = detect,
-            method = "ML")
-summary(mod6)
-AIC(mod6)
-
-summary(glht(mod2, linfct = mcp(zone = "Tukey")), test = adjusted("holm"))
-summary(glht(mod1, linfct = mcp(colony = "Tukey")), test = adjusted("holm"))
 
 #Activity model ####
 mydf <- readRDS("Data/Fulmar/Behaviour/grpfinal.RDS")
 deployments <- readRDS("Data/Fulmar/SUMMARY-DEPLOYMENTS_all_colonies.RDS")
 
-#Group night, global and boat data from script n°15 path need to be changes according to the one of script 15
+#Group night, global and boat data from script nÂ°15 path need to be changes according to the one of script 15
 TAB <- rbind(readRDS("Data/Fulmar/Behaviour/grpNightdata.RDS")) #!!#
 TAB$type <- "Night" #correspond to nights with encounters
 
