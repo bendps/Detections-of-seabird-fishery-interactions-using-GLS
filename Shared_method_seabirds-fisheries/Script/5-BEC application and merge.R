@@ -2,6 +2,7 @@ rm(list = ls())
 # Your WD #!!#
 #setwd("C:/Users/dupui/Desktop/Shared_method_seabirds-fisheries")
 
+#Note the DiveMove was removed from CRAN in January 2021, you can dowload the package here https://cran.r-project.org/src/contrib/Archive/diveMove/
 #~~~~~~#
 library(ggplot2) ; library(cowplot) ; library(diveMove) ; library(dplyr) ; library(lubridate)
 #~~~~~~#
