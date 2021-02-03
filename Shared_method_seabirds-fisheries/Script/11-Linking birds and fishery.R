@@ -1,6 +1,6 @@
 rm(list = ls())
 #Your WD #!!#
-setwd("C:/Users/dupui/Documents/Internship_M1/Shared_method_seabirds-fisheries")
+#setwd("C:/Users/dupui/Documents/Internship_M1/Shared_method_seabirds-fisheries")
 
 #~~~~~~#
 library(ggrepel) ; library(viridis)
