@@ -1,6 +1,6 @@
 rm(list = ls())
 #Your WD #!!#
-setwd("C:/Users/dupui/Documents/Internship_M1/Shared_method_seabirds-fisheries")
+#setwd("C:/Users/dupui/Documents/Internship_M1/Shared_method_seabirds-fisheries")
 
 #~~~~~~#
 library(dplyr); library(lubridate); library(ggplot2)
@@ -9,11 +9,9 @@ library(viridis)
 #~~~~~~#
 
 #Creating of Stacked file of all the data ####
-#Change these paths to the one of 1.Deployment file 2.the saving path of script n°13 #!!#
+#Change these paths to the one of 1.Deployment file 2.the saving path of script nÂ°13 #!!#
 deployments <- readRDS("Data/Fulmar/SUMMARY-DEPLOYMENTS_all_colonies.rds")
 folderpath <- "Data/Fulmar/Final/Located"
-
-memory.limit(20000) #Because R do not like huge df
 
 data.files <- list.files(folderpath, pattern = "DATA")
 mydf <- NULL
@@ -75,8 +73,8 @@ actzone$se <- as.numeric(as.character(actzone$se))
 saveRDS(actzone, "Data/Fulmar/activity_zone_compare.rds") #Change to the desired output path #!!#
 
 #Figure of activity comparison depending on light (fig.3)####
-memory.limit(20000)
-data <- readRDS("C:/Users/dupui/Documents/Internship_M1/R/Data/Fulmar/stack_files.rds") #Change to the outpu of the first part of this script #!!#
+
+data <- readRDS("Data/Fulmar/stack_files.rds") #Change to the outpu of the first part of this script #!!#
 
 #Nights without detections data ####
 mydata <- subset(data, detect_night == 0)
@@ -136,7 +134,7 @@ myboat <- grpdata %>% group_by(activity_cat) %>% summarise(mean = weighted.mean(
 myboat$se <- myboat$sd/sqrt(myboat$n)
 
 #3.Control data ####
-mydata <- readRDS("Data/Fulmar/control_stat_encounter.rds") #Change to the output file of script n°14 #!!#
+mydata <- readRDS("Data/Fulmar/control_stat_encounter.rds") #Change to the output file of script nÂ°14 #!!#
 
 grpdata <- mydata %>% group_by(individ_id,activity_cat, zone) %>%
   summarise(n = n())
