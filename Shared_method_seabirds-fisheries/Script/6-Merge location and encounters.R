@@ -17,7 +17,7 @@ loc <- loc %>% dplyr::select(individ_id,timestamp,lon,lat,loc_type)
 loc$individ_id <- str_replace(loc$individ_id, "-", "_") #fix annotation
 
 # Encounters data
-#If you're using the public data sample, only the MT logger is available, so just run that loop with m = "MT-no-"
+#If you're using the public data sample, only the Biotrack Low logger is available, so just run that loop with m = "Biotrack-low-"
 for(m in c("MT-no-","Biotrack-low-", "Biotrack-high-")){
   encounters <- readRDS(paste0(folderpath,"/encounters_BEC_",m,".rds"))
   row.names(encounters) <- NULL
