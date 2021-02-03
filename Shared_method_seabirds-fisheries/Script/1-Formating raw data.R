@@ -27,7 +27,7 @@ deployments$colony[which(deployments$colony == "Grimsey")] <- "Langanes & S. & G
 deployments$colony[which(deployments$colony == "Papey")] <- "Papey & H."
 deployments$colony[which(deployments$colony == "Holmahals")] <- "Papey & H."
 
-deployments <- deployments[-which(deployments$colony == "Isle of Canna"),]
+#deployments <- deployments[-which(deployments$colony == "Isle of Canna"),]
 saveRDS(deployments,"Data/Fulmar/SUMMARY-DEPLOYMENTS_all_colonies.rds") #Change to the deployment file path #!!#
 # Loop to open every session_id one by one ####
 for (i in 1:nrow(deployments)){
@@ -66,13 +66,13 @@ for (i in 1:nrow(deployments)){
     error <- which(mytrans$duration >= 1) #identify long transition period
     
     night <- which(mytrans$duration >= 1 &
-                     as.POSIXct(format(mytrans$tfirst, "%m-%d"), format = "%m-%d") >= date("2020-09-10")|
+                     as.POSIXct(format(mytrans$tfirst, "%m-%d"), format = "%m-%d") >= date("2021-09-10")|
                      mytrans$duration >= 1 &
-                     as.POSIXct(format(mytrans$tfirst, "%m-%d"), format = "%m-%d") <= date("2020-03-10") )
+                     as.POSIXct(format(mytrans$tfirst, "%m-%d"), format = "%m-%d") <= date("2021-03-10") )
     
     day <- which(mytrans$duration >= 1 &
-                   as.POSIXct(format(mytrans$tfirst, "%m-%d"), format = "%m-%d") >= date("2020-03-11")&
-                   as.POSIXct(format(mytrans$tfirst, "%m-%d"), format = "%m-%d") <= date("2020-09-09") )
+                   as.POSIXct(format(mytrans$tfirst, "%m-%d"), format = "%m-%d") >= date("2021-03-11")&
+                   as.POSIXct(format(mytrans$tfirst, "%m-%d"), format = "%m-%d") <= date("2021-09-09") )
     
     mytrans$twl_type[night] <- 2
     mytrans$twl_type[day] <- 1
