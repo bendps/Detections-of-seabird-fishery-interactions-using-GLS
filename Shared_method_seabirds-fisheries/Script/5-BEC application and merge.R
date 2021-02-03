@@ -9,7 +9,7 @@ library(ggplot2) ; library(cowplot) ; library(diveMove) ; library(dplyr) ; libra
 folderpath <- "Data/Fulmar/Encounters" #change to the output path of script 4. #!!#
 mysavingpath <- "Data/Fulmar/Encounters" #change to the path where you want the data to be saved #!!#
 
-#If you're using the public data sample, only the MT logger is available, so just run that loop with m = "MT-no-"
+#If you're using the public data sample, only the Biotrack low logger is available, so just run that loop with m = "Biotrack-low-"
 for(m in c("MT-no-","Biotrack-low-", "Biotrack-high-")){
   # Calculate BEC ----
   # Load data 
