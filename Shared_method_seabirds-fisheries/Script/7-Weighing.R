@@ -20,7 +20,7 @@ deployments <- readRDS("Data/Fulmar/SUMMARY-DEPLOYMENTS_all_colonies.rds") #chan
 deployments$Yt <- year(deployments$retrieval_date) - year(deployments$deployment_date) #number of years tracked
 
 
-#If you're using the public data sample, only the MT logger is available, so just run that loop with logtype = "-no-"
+#If you're using the public data sample, only the Biotrack low logger is available, so just run that loop with logtype = "-low-"
 for (logtype in c("-high-", "-no-", "-low-")){
   mydata <- readRDS(paste0(folderpath,"/encounters_localized",logtype,".rds"))
   row.names(mydata) <- NULL
