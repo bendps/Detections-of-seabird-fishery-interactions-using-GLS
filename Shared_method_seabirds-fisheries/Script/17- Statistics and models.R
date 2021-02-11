@@ -161,8 +161,88 @@ modF <- glmer(DurCat ~ colony +  (1 | individ_id), family = binomial,
               data = detect2)
 AIC(modF)
 
+#Activity (bootstrap 95%CI) ####
 
-#Activity model ####
+meanfun <- function(data, i){
+  
+  d <- data[i, ]
+  
+  return(mean(d))  
+  
+}
+
+#Load in your environment SUB1 and SUB2.
+#These shall respectively your output files from script 15. regrouping for each individual the proportion spent in each activity during encounters and control.
+
+library(boot)
+
+#Flying#######
+
+SUB2_f <- as.data.frame(subset(SUB2, activity_cat == "Flying"))
+
+SUB1_f <- as.data.frame(subset(SUB1, activity_cat == "Flying"))
+
+bo <- boot(SUB2_f[, "prop", drop = FALSE], statistic=meanfun, R=1000)
+
+bo
+
+boot.ci(bo, conf=0.95, type="bca")
+
+
+
+bo <- boot(SUB1_f[, "prop", drop = FALSE], statistic=meanfun, R=1000)
+
+bo
+
+boot.ci(bo, conf=0.95, type="bca")
+
+
+#Foraging #######
+
+SUB2_fo <- as.data.frame(subset(SUB2, activity_cat == "Foraging"))
+
+SUB1_fo <- as.data.frame(subset(SUB1, activity_cat == "Foraging"))
+
+
+
+bo <- boot(SUB2_fo[, "prop", drop = FALSE], statistic=meanfun, R=1000)
+
+bo
+
+boot.ci(bo, conf=0.95, type="bca")
+
+
+
+bo <- boot(SUB1_fo[, "prop", drop = FALSE], statistic=meanfun, R=1000)
+
+bo
+
+boot.ci(bo, conf=0.95, type="bca")
+
+
+#Resting #######
+
+SUB2_r <- as.data.frame(subset(SUB2, activity_cat == "Resting"))
+
+SUB1_r <- as.data.frame(subset(SUB1, activity_cat == "Resting"))
+
+
+
+bo <- boot(SUB2_r[, "prop", drop = FALSE], statistic=meanfun, R=1000)
+
+bo
+
+boot.ci(bo, conf=0.95, type="bca")
+
+
+
+bo <- boot(SUB1_r[, "prop", drop = FALSE], statistic=meanfun, R=1000)
+
+bo
+
+boot.ci(bo, conf=0.95, type="bca")
+
+#Old Activity model ####
 mydf <- readRDS("Data/Fulmar/Behaviour/grpfinal.RDS")
 deployments <- readRDS("Data/Fulmar/SUMMARY-DEPLOYMENTS_all_colonies.RDS")
 
