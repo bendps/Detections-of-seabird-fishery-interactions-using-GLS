@@ -1,5 +1,5 @@
 This folder contains all the annotated R scripts used in the MEPS paper
-"Close encounters of different kinds: light-level geolocators reveal spatial variations in interactions between northern fulmars and fisheries"
+"Light-level geolocators reveal spatial variations in interactions between northern fulmars and fisheries"
 Here are few instructions regarding the following scripts: 
 
 1. 	Because the dataset is not public, we can't adapt the script to refer to dropbox or other drive.
