@@ -192,24 +192,4 @@ saveRDS(myfinal,"Data/Fulmar/Behaviour/grpfinal.RDS")
 
 myfinal <- readRDS("Data/Fulmar/Behaviour/grpfinal.RDS") 
 
-ggplot(myfinal, aes(x = activity_cat, y = mean, ymin = mean-se, ymax = mean+se, col = activity_cat)) + 
-  geom_point(stat = "identity", size = 5)+
-  geom_errorbar(width = 0.6, size = 0.8)+
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(y = "Mean percentage", col = "Activity")+
-  facet_grid(~type, labeller = label_wrap_gen(width=5))+
-  scale_color_viridis(discrete = T)+
-  theme_bw()+
-  theme(text = element_text(size = 30),
-        axis.title.x = element_blank(),
-        axis.text.x = element_blank(),
-        strip.background = element_rect(fill = "white"),
-        strip.text = element_text(colour = "black"),
-        panel.grid = element_line(color = "#C4C4C4"),
-        panel.grid.major.x = element_blank(),
-        axis.ticks.x = element_blank(),
-        legend.position = "bottom")
 
-ggsave(filename = "fig3.svg", units = "in", width = 16, height = 9)
-
-  
