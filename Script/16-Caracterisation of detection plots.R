@@ -6,8 +6,7 @@ library(furrr); library(tidyverse); library(lubridate)
 library(viridis); library(RColorBrewer); library(ggsci); library(cowplot)
 #~~~~~~#
 
-mydf <- readRDS("Data/Fulmar/detect_final_zoned.rds") #Change to output path of script n?12 #!!#
-mydf <- mydf[-which(is.na(mydf$zone)),] 
+mydf <- readRDS("Data/Fulmar/Encounters/detect_final_zoned.rds") 
 
 #Fig of duration and probability for colonies ####
 # Group by session####
